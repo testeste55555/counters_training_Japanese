@@ -1,19 +1,108 @@
-# Secrets and local environment
+# Secrets and authentication
 .env
 .env.*
 !.env.example
 *.pem
 *.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.kdbx
+*.ovpn
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+.npmrc
+.pypirc
+.netrc
+_netrc
+.git-credentials
 credentials*.json
 service-account*.json
+application_default_credentials.json
+client_secret*.json
+token*.json
+secrets*.json
+auth*.json
 
-# Dependencies and build output
+# Cloud and infrastructure state
+.aws/
+.azure/
+.config/gcloud/
+.kube/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+
+# Private, exported, and backup data
+private/
+secrets/
+credentials/
+backups/
+exports/
+uploads/
+data/private/
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+*.dump
+*.bak
+*.backup
+*.old
+*.orig
+
+# Dependencies, builds, tests, and logs
 node_modules/
 dist/
+build/
 coverage/
+.nyc_output/
+.cache/
+.parcel-cache/
+.eslintcache
+playwright-report/
+test-results/
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Editors and operating systems
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Local deployment state
+.vercel/
+.netlify/
+.wrangler/
+.firebase/
+
+# Editors and AI assistants
 .vscode/
 .idea/
+.fleet/
+.cursor/
+.windsurf/
+.codex/
+.agents/
+.claude/
+
+# Operating systems
 .DS_Store
+.AppleDouble
+.LSOverride
 Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
