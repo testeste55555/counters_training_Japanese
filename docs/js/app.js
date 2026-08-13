@@ -479,19 +479,44 @@
           return;
         }
 
-        const progress = question.completed ? 100 : 62;
+        const completedCount = question.completed ? 5 : 3;
+        const products = Array.from({ length: 5 }, (_, index) => `
+          <span class="finish-unit ${index < completedCount ? "finished" : "unfinished"}">
+            <span class="finish-unit-body"></span>
+          </span>`).join("");
         objects.innerHTML = `
-          <div class="confirmation-scene finish-scene">
-            <div class="scene-worker" aria-hidden="true">👷</div>
-            <div class="progress-card">
-              <div class="timer-cue" aria-hidden="true">${question.completed ? "✓" : "…"}</div>
-              <div class="progress-visual" aria-hidden="true">
-                <div class="progress-track"><span class="progress-fill" style="--progress:${progress}%"></span></div>
-                <div class="progress-dots">● ● ● ● ●</div>
+          <div class="confirmation-scene finish-scene ${question.completed ? "is-finished" : "is-working"}">
+            <div class="finish-worker" aria-hidden="true">
+              <span class="finish-worker-helmet"></span>
+              <span class="finish-worker-head"></span>
+              <span class="finish-worker-body"></span>
+              <span class="finish-worker-arm arm-back"></span>
+              <span class="finish-worker-arm arm-work"></span>
+              <span class="finish-worker-leg leg-back"></span>
+              <span class="finish-worker-leg leg-front"></span>
+              <span class="finish-hand-tool"></span>
+              <span class="finish-motion motion-one"></span>
+              <span class="finish-motion motion-two"></span>
+            </div>
+            <div class="finish-workboard" aria-hidden="true">
+              <div class="finish-products">${products}</div>
+              <div class="finish-board-lower">
+                <div class="finish-materials">
+                  ${question.completed ? "" : `
+                    <span class="finish-material"><i></i><i></i></span>
+                    <span class="finish-material"><i></i><i></i></span>`}
+                </div>
+                <div class="finish-tool-rack"><span class="finish-rack-tool"></span></div>
+                <div class="finish-progress-number"><strong>${completedCount}</strong><span>/5</span></div>
               </div>
             </div>
           </div>`;
-        objects.setAttribute("aria-label", question.completed ? "さぎょうが おわりました" : "さぎょうは まだです");
+        objects.setAttribute(
+          "aria-label",
+          question.completed
+            ? "さぎょういんが どうぐを おき、5この かんせいひんを かくにんしています。ざいりょうは のこっていません"
+            : "さぎょういんが どうぐを もって さぎょうしています。3こが かんせいし、2この ざいりょうが のこっています"
+        );
       }
 
       function renderQuestion() {
