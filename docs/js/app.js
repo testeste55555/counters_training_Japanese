@@ -201,10 +201,11 @@
         "man", "woman", "child", "worker",
         "pencil", "pen", "umbrella", "pipe", "broom", "bottle",
         "paper", "towel", "mask", "rag", "sheet", "label",
-        "dog", "cat", "rabbit", "fish", "mouse", "frog",
-        "car", "bicycle", "motorcycle", "computer", "fridge", "washer", "microwave", "forklift",
+        "dog", "cat", "fish", "mouse", "frog",
+        "bird", "chicken", "duck", "pigeon", "owl",
+        "car", "bicycle", "motorcycle", "computer", "fridge", "washer", "microwave", "forklift", "cart",
         "book", "notebook", "dictionary", "textbook", "planner", "manual",
-        "nut", "bucket", "tape-measure", "button"
+        "nut", "bucket", "tape-measure", "button", "work-time"
       ]);
 
       const confirmationTypes = [
@@ -221,6 +222,7 @@
         "pencil", "umbrella", "broom",
         "paper", "towel", "mask", "rag", "sheet", "label",
         "dog", "cat", "fish",
+        "bird", "chicken", "duck", "pigeon", "owl",
         "car", "bicycle", "motorcycle", "computer",
         "book", "notebook", "dictionary", "manual",
         "nut", "bucket", "button"
@@ -301,9 +303,12 @@
 
       function availableConfirmationTypes() {
         const packable = selectedItems((candidate) => packableItemKeys.has(candidate.key));
-        return packable.length
-          ? confirmationTypes
-          : confirmationTypes.filter((type) => type !== "put-check");
+        const canCountRemaining = [...state.selectedCounters]
+          .some((counter) => clearRemainingItems(counter).length);
+        return confirmationTypes.filter((type) =>
+          (type !== "put-check" || packable.length) &&
+          (type !== "remaining-count" || canCountRemaining)
+        );
       }
 
       function makeConfirmationQuestion() {
@@ -342,6 +347,12 @@
         if (state.remainingPlan.length === 0) {
           const eligibleCounters = [...state.selectedCounters]
             .filter((counter) => clearRemainingItems(counter).length);
+          if (!eligibleCounters.length) {
+            const timeQuestion = placeholderQuestion();
+            timeQuestion.confirmationType = "remaining-time";
+            setNextTime(timeQuestion);
+            return timeQuestion;
+          }
           state.remainingPlan = makeRemainingPlan(
             state,
             eligibleCounters,
@@ -431,6 +442,7 @@
 
       function renderConfirmationScene(question) {
         objects.classList.add("confirm-objects");
+        objects.classList.remove("minute-objects");
         const type = question.confirmationType;
 
         if (type === "remaining-count") {
@@ -555,14 +567,27 @@
           renderConfirmationScene(question);
         } else {
           setPhraseLine(questionSentence, [
-            `${question.item.name}は`,
+            question.item.questionSubject || `${question.item.name}は`,
             data.question,
             `${question.item.verb}か。`
           ]);
+          const isMinuteDisplay = question.item.display === "minutes";
           objects.classList.remove("confirm-objects");
-          objects.style.setProperty("--cols", String(Math.min(question.number, 5)));
-          objects.innerHTML = Array.from({ length: question.number }, (_, index) => objectMarkup(question.item, index)).join("");
-          objects.setAttribute("aria-label", isRoleplay ? `${question.item.name}が ${question.number}` : "かずえる もの");
+          objects.classList.toggle("minute-objects", isMinuteDisplay);
+          objects.style.setProperty("--cols", String(isMinuteDisplay ? 1 : Math.min(question.number, 5)));
+          objects.innerHTML = isMinuteDisplay
+            ? `<div class="minute-practice-card" aria-hidden="true">
+                <span class="minute-stopwatch"><i></i></span>
+                <span class="minute-practice-number">${question.number}</span>
+                <span class="minute-ticks">${Array.from({ length: 10 }, () => "<i></i>").join("")}</span>
+              </div>`
+            : Array.from({ length: question.number }, (_, index) => objectMarkup(question.item, index)).join("");
+          objects.setAttribute(
+            "aria-label",
+            isMinuteDisplay
+              ? `${question.number}の じかん`
+              : isRoleplay ? `${question.item.name}が ${question.number}` : "かずえる もの"
+          );
         }
 
         answerReading.replaceChildren();
@@ -583,7 +608,7 @@
           answerSentence.replaceChildren();
         } else {
           setPhraseLine(answerSentence, [
-            `${question.item.name}が`,
+            question.item.answerSubject || `${question.item.name}が`,
             reading,
             `${question.item.verb}。`
           ]);

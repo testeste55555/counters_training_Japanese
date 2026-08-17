@@ -66,6 +66,18 @@
             { key: "frog", name: "かえる", glyphs: ["🐸"], verb: "います", category: "basic", jobTags: ["common"] }
           ]
         },
+        wa: {
+          label: "〜わ", question: "なんわ",
+          readings: ["いちわ", "にわ", "さんば", "よんわ", "ごわ", "ろっぱ", "ななわ", "はっぱ", "きゅうわ", "じゅっぱ"],
+          items: [
+            { key: "bird", name: "とり", glyphs: ["🐦"], verb: "います", category: "basic", jobTags: ["common"] },
+            { key: "chicken", name: "にわとり", glyphs: ["🐓"], verb: "います", category: "life", jobTags: ["common", "food"] },
+            { key: "duck", name: "あひる", glyphs: ["🦆"], verb: "います", category: "life", jobTags: ["common"] },
+            { key: "pigeon", name: "はと", glyphs: ["🕊️"], verb: "います", category: "life", jobTags: ["common"] },
+            { key: "owl", name: "ふくろう", glyphs: ["🦉"], verb: "います", category: "life", jobTags: ["common"] },
+            { key: "rabbit", name: "うさぎ", glyphs: ["🐇"], verb: "います", category: "life", jobTags: ["common"], acceptedCounters: ["wa", "hiki"] }
+          ]
+        },
         dai: {
           label: "〜だい", question: "なんだい",
           readings: ["いちだい", "にだい", "さんだい", "よんだい", "ごだい", "ろくだい", "ななだい", "はちだい", "きゅうだい", "じゅうだい"],
@@ -77,7 +89,8 @@
             { key: "fridge", name: "れいぞうこ", draw: "fridge", verb: "あります", category: "life", jobTags: ["common", "food"] },
             { key: "washer", name: "せんたくき", draw: "washer", verb: "あります", category: "life", jobTags: ["common"] },
             { key: "microwave", name: "でんしれんじ", draw: "microwave", verb: "あります", category: "life", jobTags: ["common", "food"] },
-            { key: "forklift", name: "ふぉーくりふと", draw: "forklift", verb: "あります", category: "work", jobTags: ["common", "construction", "manufacturing", "food"] }
+            { key: "forklift", name: "ふぉーくりふと", draw: "forklift", verb: "あります", category: "work", jobTags: ["common", "construction", "manufacturing", "food"] },
+            { key: "cart", name: "だいしゃ", draw: "cart", verb: "あります", category: "work", jobTags: ["common", "construction", "manufacturing", "food"] }
           ]
         },
         satsu: {
@@ -102,6 +115,13 @@
             { key: "bucket", name: "ばけつ", glyphs: ["🪣"], verb: "あります", category: "work", jobTags: ["common", "construction", "manufacturing", "food"] },
             { key: "tape-measure", name: "めじゃー", draw: "tape", verb: "あります", category: "work", jobTags: ["common", "construction", "welding", "manufacturing"] },
             { key: "button", name: "ぼたん", draw: "button", verb: "あります", category: "work", jobTags: ["sewing", "manufacturing"] }
+          ]
+        },
+        fun: {
+          label: "〜ふん", question: "なんぷん",
+          readings: ["いっぷん", "にふん", "さんぷん", "よんぷん", "ごふん", "ろっぷん", "ななふん", "はっぷん", "きゅうふん", "じゅっぷん"],
+          items: [
+            { key: "work-time", name: "さぎょうじかん", glyphs: ["⏱️"], verb: "です", category: "work", jobTags: ["common", "construction", "welding", "manufacturing", "food", "sewing", "care"], display: "minutes", questionSubject: "さぎょうじかんは", answerSubject: "さぎょうじかんは" }
           ]
         }
       }
